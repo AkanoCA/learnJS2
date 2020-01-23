@@ -72,8 +72,7 @@ let appData = {
         do {
             let items = prompt('Что принесет дополнительный доход? (Перечислите через запятую', '');
 
-            if (isNaN(+items) &&
-                items != '' &&
+            if (items != '' &&
                 items != null
             ) {
                 appData.income = items.split(', ');
@@ -94,9 +93,7 @@ let appData = {
 console.log ('Наша программа включает в себя:');
 for (let key in appData) {
     console.log(key);
-}
-
-
+};
 
 
 

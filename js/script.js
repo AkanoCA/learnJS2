@@ -1,36 +1,51 @@
 'use strict';
 
-let money,
-    time;
+let resultTable = document.querySelector('.result-table');
 
-// start();
+// ---- Right column Value
+let budgetVal = resultTable.querySelector('.budget-value');
+let dayBudgetVal = resultTable.querySelector('.dabudget-value');
+let levelVal = resultTable.querySelector('.level-value');
+let expensesVal = resultTable.querySelector('.expenses-value');
+let optExpensesVal = resultTable.querySelector('.optionalexpenses-value');
+let incomeVal = resultTable.querySelector('.income-value');
+let mothSavingsVal = resultTable.querySelector('.mothsavings-value');
+let yearSavingsVal = resultTable.querySelector('.yearsavings-value');
+
+// ---- Input items
+let expensesItems = document.querySelectorAll('.expenses-item');
+let optExpensesItems = document.querySelectorAll('.optionalexpenses-item');
+
+let chooseIncome = document.querySelector('.choose-income');
+let chooseSum = document.querySelector('.choose-sum');
+let choosePercent = document.querySelector('.choose-percent');
+
+let yearValue = document.querySelector('.year-value');
+let monthValue = document.querySelector('.month-value');
+let dayValue = document.querySelector('.day-value');
+
+let checkBoxSavings = document.querySelector('#savings');
+
+// ---- Buttons
+let buttonStart = document.querySelector('#start');
+
+let approveBtnExpenses = document.querySelector('.expenses-item-btn');
+
+let approveBtnOptExpenses = document.querySelector('.optionalexpenses-btn');
+let countBtnOptExpenses = document.querySelector('.count-budget-btn');
+
+
+// ---- Data
 
 let appData = {
-    budget: money,
-    timeData: time,
+    budget: null,
+    timeData: null,
     expenses: {},
     optionalExpenses: {},
     income: [],
     savings: true,
     chooseExpenses: function () {
-        for (let i = 0; i < 2; i++) {
-
-            let item = prompt("Введите обязательную статью рассходов в этом месяце", "");
-            let itemCost = +prompt("Во сколько обойдется?", "");
-
-            if (
-                item != null &&
-                itemCost != null &&
-                item != '' &&
-                itemCost != '' &&
-                item.length < 50
-            ) {
-                appData.expenses[item] = itemCost;
-
-            } else {
-                --i;
-            };
-        };
+        
     },
     detectDayBudget: function () {
         appData.moneyPerDay = (appData.budget / 30).toFixed(2);
@@ -90,24 +105,67 @@ let appData = {
     }
 };
 
-console.log ('Наша программа включает в себя:');
-for (let key in appData) {
-    console.log(key);
-};
+// console.log ('Наша программа включает в себя:');
+// for (let key in appData) {
+//     console.log(key);
+// };
 
+
+//----- Events
+
+buttonStart.addEventListener('click', function(){
+
+    let money, time;
+    
+    time = prompt("Введите дату в формет YYYY-MM-DD", "1125-11-28");
+    
+    do {
+
+        money = +prompt("Ваш бюджет на месяц?", "30000");
+
+    } while (isNaN(money) || money == '' || money == null);
+
+    appData.budget = money;
+    appData.timeData = time;
+    budgetVal.textContent = money.toFixed();
+
+    yearValue.value = new Date(Date.parse(time)).getFullYear()
+    monthValue.value = new Date(Date.parse(time)).getMonth() + 1;
+    dayValue.value = new Date(Date.parse(time)).getDate();
+
+});
+
+approveBtnExpenses.addEventListener('click', function(){
+
+    let sum = 0;
+
+    for (let i = 0; i < expensesItems.length; i++) {
+
+        let item = expensesItems[i].value;
+        let itemCost = expensesItems[++i].value;
+
+        if (
+            item != null &&
+            itemCost != null &&
+            item != '' &&
+            itemCost != '' &&
+            item.length < 50
+        ) {
+            appData.expenses[item] = itemCost;
+            sum += +itemCost;
+
+        } else {
+            --i;
+        };
+    };
+
+});
+
+//----- 
 
 
 //=======functions==========
 
-function start() {
-    do {
-
-        money = +prompt("Ваш бюджет на месяц?", "1000");
-
-    } while (isNaN(money) || money == '' || money == null);
-
-    time = prompt("Введите дату в формет YYYY-MM-DD", "1125-11-28");
-}
 
 function show(val) {
     console.log(val);
